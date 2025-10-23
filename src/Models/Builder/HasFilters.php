@@ -266,10 +266,6 @@ trait HasFilters
 
     /**
      * Converts the value into a usable state for $filter
-     *
-     * @param  mixed  $value
-     * @param  bool  $for_query
-     * @return string|int|float|bool
      */
     protected function formatValue(mixed $value, bool $for_query = true): string|int|float|bool
     {

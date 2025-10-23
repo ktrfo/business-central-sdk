@@ -2,7 +2,6 @@
 
 use Carbon\Carbon;
 use Ktr\BusinessCentral\Models\ApiV20\Items;
-use Ktr\BusinessCentral\Models\ApiV20\SalesOrders;
 
 it('can build complex query with multiple filter types', function () {
     $date = Carbon::parse('2024-01-01');
@@ -62,7 +61,7 @@ it('can chain where with orWhere correctly', function () {
 it('can use raw filters when needed', function () {
     $builder = Items::query()
         ->where('type', 'Inventory')
-        ->filter("unitPrice gt 100 and unitPrice lt 1000");
+        ->filter('unitPrice gt 100 and unitPrice lt 1000');
 
     $filters = $builder->getFilters();
 
