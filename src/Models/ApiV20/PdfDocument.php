@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class PdfDocument extends Model
-{
-
-}
+class PdfDocument extends Model {}

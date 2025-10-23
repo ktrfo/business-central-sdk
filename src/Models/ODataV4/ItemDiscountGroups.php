@@ -8,5 +8,5 @@ namespace Ktr\BusinessCentral\Models\ODataV4;
  */
 class ItemDiscountGroups extends Model
 {
-    protected $resource = 'ItemDiscountGroups'; //Page Object id 513
+    protected $resource = 'ItemDiscountGroups'; // Page Object id 513
 }

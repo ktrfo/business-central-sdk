@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class InventoryPostingGroups extends Model
-{
-
-}
+class InventoryPostingGroups extends Model {}

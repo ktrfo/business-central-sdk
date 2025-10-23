@@ -4,8 +4,7 @@ namespace Ktr\BusinessCentral\Models\Builder;
 
 trait HasPagination
 {
-
-    public function limit(int $limit = null): Builder
+    public function limit(?int $limit = null): Builder
     {
         if ($limit) {
             $this->query['$top'] = $limit;
@@ -14,7 +13,7 @@ trait HasPagination
         return $this;
     }
 
-    public function offset(int $offset = null): Builder
+    public function offset(?int $offset = null): Builder
     {
         if ($offset) {
             $this->query['$skip'] = $offset;
@@ -32,5 +31,4 @@ trait HasPagination
     {
         return $this->offset($value);
     }
-
 }

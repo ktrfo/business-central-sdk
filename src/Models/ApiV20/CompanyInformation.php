@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class CompanyInformation extends Model
-{
-
-}
+class CompanyInformation extends Model {}

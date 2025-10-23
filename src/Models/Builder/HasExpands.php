@@ -19,18 +19,17 @@ trait HasExpands
             $this->createExpandArray($this->getExpandValue($arg));
         }
 
-        if (!empty($this->expands)) {
+        if (! empty($this->expands)) {
             $this->query['$expand'] = implode(',', $this->expands);
         }
 
         return $this;
     }
 
-
     private function getExpandValue($resourceInput): string
     {
 
-        if (!class_exists($resourceInput)) {
+        if (! class_exists($resourceInput)) {
             return $resourceInput;
         }
         $possibleModel = new $resourceInput;
@@ -42,8 +41,7 @@ trait HasExpands
 
     private function createExpandArray($arg): void
     {
-        $arg = !is_array($arg) ? [$arg] : $arg;
+        $arg = ! is_array($arg) ? [$arg] : $arg;
         $this->expands = array_unique(array_merge($this->expands, $arg));
     }
-
 }

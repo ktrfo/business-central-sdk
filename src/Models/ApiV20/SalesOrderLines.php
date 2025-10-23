@@ -34,7 +34,4 @@ namespace Ktr\BusinessCentral\Models\ApiV20;
  * @property int $shipQuantity
  * @property string $itemVariantId
  */
-class SalesOrderLines extends Model
-{
-
-}
+class SalesOrderLines extends Model {}

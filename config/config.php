@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'client_id' => env('BUSINESS_CENTRAL_CLIENT_ID'),
     'client_secret' => env('BUSINESS_CENTRAL_CLIENT_SECRET'),

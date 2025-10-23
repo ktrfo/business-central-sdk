@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class BankAccounts extends Model
-{
-
-}
+class BankAccounts extends Model {}

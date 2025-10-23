@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class Journals extends Model
-{
-
-}
+class Journals extends Model {}

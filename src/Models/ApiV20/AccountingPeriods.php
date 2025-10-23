@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class AccountingPeriods extends Model
-{
-
-}
+class AccountingPeriods extends Model {}

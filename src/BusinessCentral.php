@@ -19,6 +19,7 @@ class BusinessCentral
     public function oDataV4()
     {
         $this->apiVersion = 'ODataV4';
+
         return $this;
     }
 
@@ -26,5 +27,4 @@ class BusinessCentral
     {
         return Http::businessCentral($this->apiVersion)->$method(...$parameters);
     }
-
 }

@@ -56,7 +56,4 @@ namespace Ktr\BusinessCentral\Models\ApiV20;
  * @property string $phoneNumber
  * @property string $email
  */
-class SalesOrders extends Model
-{
-
-}
+class SalesOrders extends Model {}

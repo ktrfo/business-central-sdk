@@ -48,6 +48,7 @@ trait HasSorting
         foreach ($this->order as $field => $direction) {
             $sorting[] = "$field $direction";
         }
+
         return implode(',', $sorting);
     }
 }

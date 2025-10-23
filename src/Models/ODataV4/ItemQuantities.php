@@ -14,13 +14,12 @@ use Illuminate\Support\Collection;
  */
 class ItemQuantities extends Model
 {
-    protected $resource = 'ItemQuantities'; //Query Object id 2552
-    //protected $apiVersion = 'ODataV4';
+    protected $resource = 'ItemQuantities'; // Query Object id 2552
+    // protected $apiVersion = 'ODataV4';
 
     public static function available(): Collection
     {
         return (new static)->newQuery()->where('Inventory', '>', 1)->get();
 
     }
-
 }

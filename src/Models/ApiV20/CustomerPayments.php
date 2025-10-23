@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class CustomerPayments extends Model
-{
-
-}
+class CustomerPayments extends Model {}

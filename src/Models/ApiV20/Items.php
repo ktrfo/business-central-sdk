@@ -26,7 +26,4 @@ namespace Ktr\BusinessCentral\Models\ApiV20;
  * @property string $inventoryPostingGroupCode
  * @property-read string $lastModifiedDateTime The last datetime the item was modified. Read-Only.
  */
-class Items extends Model
-{
-
-}
+class Items extends Model {}

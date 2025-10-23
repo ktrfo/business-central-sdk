@@ -18,5 +18,5 @@ namespace Ktr\BusinessCentral\Models\ODataV4;
  */
 class SalesLineDisc extends Model
 {
-    protected $resource = 'SalesLineDisc'; //Page Object id 7009
+    protected $resource = 'SalesLineDisc'; // Page Object id 7009
 }

@@ -12,39 +12,41 @@ use Ktr\BusinessCentral\Models\Model;
  */
 class Builder
 {
+    use HasExpands;
     use HasFilters;
+    use HasPagination;
     use HasSelects;
     use HasSorting;
-    use HasExpands;
-    use HasPagination;
 
     protected array $query = [];
 
-    public function __construct(protected Model $model)
-    {
-    }
+    public function __construct(protected Model $model) {}
 
     public function get(): Collection
     {
         $items = HttpClient::get($this->model->getResource(), $this->model->getApiVersion(), $this->query);
-        return $items->map(fn($item) => new $this->model($item));
+
+        return $items->map(fn ($item) => new $this->model($item));
     }
 
-    function first(): Model
+    public function first(): Model
     {
         $items = HttpClient::get($this->model->getResource(), $this->model->getApiVersion(), $this->query);
+
         return new $this->model($items->first());
     }
 
     public function find($id): Model
     {
         $this->where($this->model->getPrimaryKey(), $id)->first();
+
         return $this->first();
     }
 
     public function create($data): Model
     {
         $item = HttpClient::post($this->model->getResource(), $this->model->getApiVersion(), $data);
+
         return new $this->model($item);
     }
 
@@ -82,7 +84,6 @@ class Builder
                 }
                 $page++;
             }
-
 
         });
     }

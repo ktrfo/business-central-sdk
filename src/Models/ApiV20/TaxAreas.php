@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class TaxAreas extends Model
-{
-
-}
+class TaxAreas extends Model {}

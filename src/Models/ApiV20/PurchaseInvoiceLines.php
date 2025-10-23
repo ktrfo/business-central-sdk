@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class PurchaseInvoiceLines extends Model
-{
-
-}
+class PurchaseInvoiceLines extends Model {}

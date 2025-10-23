@@ -2,8 +2,6 @@
 
 namespace Ktr\BusinessCentral\Models\ODataV4;
 
-use Illuminate\Support\Collection;
-
 /**
  * @property-read string "@odata.etag"
  * @property-read string "No"
@@ -59,5 +57,5 @@ use Illuminate\Support\Collection;
  */
 class Items extends Model
 {
-    protected $resource = 'items'; //Page Object id 32
+    protected $resource = 'items'; // Page Object id 32
 }

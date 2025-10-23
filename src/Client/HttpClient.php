@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class HttpClient
 {
-
-
-    public static function get(string $resource, string $apiVersion, array $query): Collection|null
+    public static function get(string $resource, string $apiVersion, array $query): ?Collection
     {
         $response = Http::businessCentral($apiVersion)->get($resource, $query);
 
@@ -19,11 +17,11 @@ class HttpClient
             return collect($response->json()['value']);
         }
 
-        Log::error($response->json()['error']['code'] . " " . $response->json()['error']['message']);
+        Log::error($response->json()['error']['code'].' '.$response->json()['error']['message']);
+
         return null;
 
     }
-
 
     public static function post(string $resource, string $apiVersion, array $data): array
     {
@@ -32,7 +30,7 @@ class HttpClient
         if ($response->successful()) {
             return $response->json();
         } else {
-            throw new ConnectionException($response->json()['error']['code'] . " " . $response->json()['error']['message']);
+            throw new ConnectionException($response->json()['error']['code'].' '.$response->json()['error']['message']);
         }
     }
 
@@ -45,7 +43,7 @@ class HttpClient
         if ($response->successful()) {
             return $response->json();
         } else {
-            throw new ConnectionException($response->json()['error']['code'] . " " . $response->json()['error']['message']);
+            throw new ConnectionException($response->json()['error']['code'].' '.$response->json()['error']['message']);
         }
     }
 
@@ -58,8 +56,7 @@ class HttpClient
         if ($response->successful()) {
             return true;
         } else {
-            throw new ConnectionException($response->json()['error']['code'] . " " . $response->json()['error']['message']);
+            throw new ConnectionException($response->json()['error']['code'].' '.$response->json()['error']['message']);
         }
     }
-
 }

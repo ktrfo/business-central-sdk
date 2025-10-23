@@ -43,7 +43,6 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Create a new Eloquent model instance.
      *
-     * @param array $attributes
      * @return void
      */
     public function __construct(public array $attributes = [])
@@ -52,20 +51,14 @@ abstract class Model implements ArrayAccess, JsonSerializable
         $this->original = $attributes;
     }
 
-
-    /**
-     * @return Builder
-     */
     public function newQuery(): Builder
     {
         return new Builder($this);
     }
 
-
     /**
      * Create a new Collection instance.
      *
-     * @param array $models
      * @return Collection
      */
     public function newCollection(array $models = [])
@@ -73,17 +66,13 @@ abstract class Model implements ArrayAccess, JsonSerializable
         return new Collection($models);
     }
 
-
     /**
      * Convert the object into something JSON serializable.
-     *
-     * @return mixed
      */
     public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
-
 
     /**
      * Get the resource associated with the model.
@@ -112,7 +101,6 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Set the resource associated with the model.
      *
-     * @param string $resource
      * @return $this
      */
     public function setResource(string $resource): Model
@@ -135,7 +123,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Set the primary key for the model.
      *
-     * @param string $key
+     * @param  string  $key
      * @return $this
      */
     public function setKeyName($key)
@@ -148,7 +136,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Dynamically retrieve attributes on the model.
      *
-     * @param string $key
+     * @param  string  $key
      * @return mixed
      */
     public function __get($key)
@@ -158,9 +146,10 @@ abstract class Model implements ArrayAccess, JsonSerializable
 
     public function getAttribute($key)
     {
-        if (!$key) {
+        if (! $key) {
             return '';
         }
+
         return $this->attributes[$key] = $this->attributes[$key] ?? null;
 
     }
@@ -173,8 +162,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Dynamically set attributes on the model.
      *
-     * @param string $key
-     * @param mixed $value
+     * @param  string  $key
+     * @param  mixed  $value
      * @return void
      */
     public function __set($key, $value)
@@ -185,13 +174,12 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Determine if the given attribute exists.
      *
-     * @param mixed $offset
-     * @return bool
+     * @param  mixed  $offset
      */
     public function offsetExists($offset): bool
     {
         try {
-            return !is_null($this->getAttribute($offset));
+            return ! is_null($this->getAttribute($offset));
         } catch (\Exception) {
             return false;
         }
@@ -200,8 +188,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Get the value for a given offset.
      *
-     * @param mixed $offset
-     * @return mixed
+     * @param  mixed  $offset
      */
     public function offsetGet($offset): mixed
     {
@@ -211,9 +198,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Set the value for a given offset.
      *
-     * @param mixed $offset
-     * @param mixed $value
-     * @return void
+     * @param  mixed  $offset
+     * @param  mixed  $value
      */
     public function offsetSet($offset, $value): void
     {
@@ -223,8 +209,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Unset the value for a given offset.
      *
-     * @param mixed $offset
-     * @return void
+     * @param  mixed  $offset
      */
     public function offsetUnset($offset): void
     {
@@ -234,7 +219,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Determine if an attribute or relation exists on the model.
      *
-     * @param string $key
+     * @param  string  $key
      * @return bool
      */
     public function __isset($key)
@@ -245,7 +230,7 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Unset an attribute on the model.
      *
-     * @param string $key
+     * @param  string  $key
      * @return void
      */
     public function __unset($key)
@@ -256,8 +241,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Handle dynamic method calls into the model.
      *
-     * @param string $method
-     * @param array $parameters
+     * @param  string  $method
+     * @param  array  $parameters
      * @return mixed
      */
     public function __call($method, $parameters)
@@ -278,11 +263,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
         return $this->forwardCallTo($this->newQuery(), $method, $parameters);
     }
 
-
     /**
      * Handle dynamic static method calls into the model.
-     *
-     * @return Builder
      */
     public static function query(): Builder
     {
@@ -292,8 +274,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
     /**
      * Handle dynamic static method calls into the model.
      *
-     * @param string $method
-     * @param array $parameters
+     * @param  string  $method
+     * @param  array  $parameters
      * @return Builder|Model
      */
     public static function __callStatic($method, $parameters)
@@ -304,23 +286,25 @@ abstract class Model implements ArrayAccess, JsonSerializable
     public function save(): static
     {
         $this->update(array_diff($this->attributes, $this->original));
+
         return $this;
     }
 
     public function update($data): static
     {
-        $resource = $this->getResource() . "($this->id)";
+        $resource = $this->getResource()."($this->id)";
         $etag = $this->{'@odata.etag'};
         $item = HttpClient::patch($etag, $resource, $this->getApiVersion(), $data);
         $this->attributes = $item;
+
         return $this;
     }
 
     public function delete(): bool
     {
-        $resource = $this->getResource() . "($this->id)";
+        $resource = $this->getResource()."($this->id)";
         $etag = $this->{'@odata.etag'};
+
         return HttpClient::delete($etag, $resource, $this->getApiVersion());
     }
-
 }

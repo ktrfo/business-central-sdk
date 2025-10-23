@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class Opportunities extends Model
-{
-
-}
+class Opportunities extends Model {}

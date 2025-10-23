@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class ApplyVendorEntries extends Model
-{
-
-}
+class ApplyVendorEntries extends Model {}

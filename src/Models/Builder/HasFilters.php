@@ -9,9 +9,9 @@ trait HasFilters
 {
     public array $filters = [];
 
-    public function filter(string $raw, $before = 'and'): Builder
+    public function filter(string $raw, string $before = 'and'): Builder
     {
-        return $this->whereRaw($raw, $before = 'and');
+        return $this->whereRaw($raw, $before);
     }
 
     public function orFilter(string $raw, $before = 'or'): Builder
@@ -40,12 +40,17 @@ trait HasFilters
     public function where($property, $operator = null, $value = null, string $before = 'and'): Builder
     {
         if ($property instanceof Closure) {
-            return $this->whereGroup($property);
+            return $this->whereGroup($property, $before);
         }
 
         if ($value === null) {
             $value = $operator;
             $operator = '=';
+        }
+
+        // Auto-detect DateTime objects and use whereDateTime instead
+        if ($value instanceof DateTime) {
+            return $this->whereDateTime($property, $operator, $value, $before);
         }
 
         $this->filters[] = [
@@ -72,6 +77,7 @@ trait HasFilters
             'type' => 'in',
             'property' => $property,
             'values' => $values,
+            'before' => $before,
         ];
 
         $this->getFiltersString();
@@ -79,12 +85,12 @@ trait HasFilters
         return $this;
     }
 
-    public function orWhereIn(string $property, array $values, $before = 'or'): Builder
+    public function orWhereIn(string $property, array $values, string $before = 'or'): Builder
     {
         return $this->whereIn($property, $values, $before);
     }
 
-    public function whereDateTime(string $property, $operator, DateTime $value = null, string $before = 'and'): Builder
+    public function whereDateTime(string $property, $operator, ?DateTime $value = null, string $before = 'and'): Builder
     {
         if ($value === null) {
             $value = $operator;
@@ -104,7 +110,7 @@ trait HasFilters
         return $this;
     }
 
-    public function orWhereDateTime(string $property, $operator, DateTime $value = null, string $before = 'or'): Builder
+    public function orWhereDateTime(string $property, $operator, ?DateTime $value = null, string $before = 'or'): Builder
     {
         return $this->whereDateTime($property, $operator, $value, $before);
     }
@@ -223,7 +229,7 @@ trait HasFilters
                     break;
 
                 case 'group':
-                    $group_query = $this->sdk->query();
+                    $group_query = new self($this->model);
                     $filter['callback']($group_query);
                     $filters[] = "( {$group_query->getFiltersString(false)} )";
                     break;
@@ -241,9 +247,9 @@ trait HasFilters
                     break;
 
                 case 'not':
-                    //$group_query = $this->sdk->query();
-                    $filter['callback']($group_query);
-                    //$filters[] = "not ( {$group_query->getFiltersString(false)} )";
+                    $not_query = new self($this->model);
+                    $filter['callback']($not_query);
+                    $filters[] = "not ( {$not_query->getFiltersString(false)} )";
                     break;
 
                 case 'raw':
@@ -251,31 +257,33 @@ trait HasFilters
             }
         }
 
-        if (!empty($this->filters)) {
+        if (! empty($this->filters)) {
             $this->query['$filter'] = implode(' ', $filters);
         }
 
-        return ($with_prefix ? '$filter=' : '') . implode(' ', $filters);
+        return ($with_prefix ? '$filter=' : '').implode(' ', $filters);
     }
 
     /**
      * Converts the value into a usable state for $filter
-     * @param      $value
-     * @param bool $for_query
+     *
+     * @param  mixed  $value
+     * @param  bool  $for_query
+     * @return string|int|float|bool
      */
-    protected function formatValue($value, $for_query = true): string
+    protected function formatValue(mixed $value, bool $for_query = true): string|int|float|bool
     {
-        if (is_string($value)) {
-            if (is_int($value) || is_float($value) || is_double($value)) {
-                return $value;
-            } elseif ($for_query) {
-                return sprintf("'%s'", urlencode($value));
-            } else {
-                return sprintf("'%s'", $value);
-            }
+        // Non-string values (int, float, bool) are returned as-is
+        if (! is_string($value)) {
+            return $value;
         }
 
-        return $value;
+        // String values need to be wrapped in quotes for OData
+        if ($for_query) {
+            return sprintf("'%s'", urlencode($value));
+        }
+
+        return sprintf("'%s'", $value);
     }
 
     /**
@@ -283,7 +291,7 @@ trait HasFilters
      */
     protected function parseOperator($operator): string
     {
-        return ['=' => 'eq', '!=' => 'ne', '>' => 'gt', '>=' => 'ge', '<' => 'lt', '<=' => 'le',][$operator] ?? $operator;
+        return ['=' => 'eq', '!=' => 'ne', '>' => 'gt', '>=' => 'ge', '<' => 'lt', '<=' => 'le'][$operator] ?? $operator;
     }
 
     public function getFilters(): array
@@ -294,7 +302,6 @@ trait HasFilters
     /**
      * Set filters for query
      *
-     * @param array $filters
      *
      * @return $this|Builder
      */

@@ -31,7 +31,4 @@ namespace Ktr\BusinessCentral\Models\ApiV20;
  * @property-read string $blocked
  * @property-read string $lastModifiedDateTime
  */
-class Customers extends Model
-{
-
-}
+class Customers extends Model {}

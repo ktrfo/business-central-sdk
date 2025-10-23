@@ -36,7 +36,7 @@ class Token
             ->post($redirectUri, $payload)
             ->throw();
 
-        Cache::remember($cacheKey, $response->json()['expires_in'], fn(): string => $response->json()['access_token']);
+        Cache::remember($cacheKey, $response->json()['expires_in'], fn (): string => $response->json()['access_token']);
 
         return $response->json()['access_token'];
     }

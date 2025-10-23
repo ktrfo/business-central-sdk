@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class Apicategoryroutes extends Model
-{
-
-}
+class Apicategoryroutes extends Model {}

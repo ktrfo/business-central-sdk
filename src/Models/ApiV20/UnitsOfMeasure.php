@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class UnitsOfMeasure extends Model
-{
-
-}
+class UnitsOfMeasure extends Model {}

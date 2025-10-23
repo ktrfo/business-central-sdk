@@ -2,7 +2,4 @@
 
 namespace Ktr\BusinessCentral\Models\ApiV20;
 
-class TrialBalances extends Model
-{
-
-}
+class TrialBalances extends Model {}
