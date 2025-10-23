@@ -2,6 +2,14 @@
 
 All notable changes to `business-central-sdk` will be documented in this file
 
+## 1.0.1 - 2025-10-23
+
+### Changed
+- 📦 **Minimum Laravel version**: Dropped Laravel 9 and 10 support, now requires `^11.0|^12.0`
+- 🔒 **Security**: Resolves Dependabot alert for outdated Laravel versions (< 10.48.29)
+
+This is a non-breaking change for existing users as Laravel 11+ was already the recommended version.
+
 ## 1.0.0 - 2025-10-23
 
 ### Added
